@@ -1,6 +1,6 @@
 /*global define, $, brackets, window */
 
-define( [], function () {
+define([], function () {
     "use strict";
     
     return {
@@ -8,4 +8,4 @@ define( [], function () {
         
         RUN_COMMAND: "GitManager.runCommand"
     };
-};
+});

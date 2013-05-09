@@ -5,6 +5,6 @@
 define(function (require, exports, module) {
     "use strict";
 
-    var git = require("GitManager");
-            
+    var gitManager = require("GitManager");
+    
 });

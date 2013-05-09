@@ -16,4 +16,4 @@ define(["GitManagerConstants"], function (Constants) {
     I18n.l10n = I18n.en_US;
 
     return I18n.l10n;
-};
+});
