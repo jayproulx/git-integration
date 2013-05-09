@@ -22,6 +22,7 @@ define(["GitManagerConstants", "GitManagerI18n", "GitManagerMenus"], function (C
     };
     
     GitManager.prototype.runCommand = function () {
+        
     };
     
     instance = new GitManager();

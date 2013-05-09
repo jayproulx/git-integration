@@ -14,7 +14,6 @@ define(["GitManagerConstants", "GitManagerI18n"], function (Constants, I18n) {
     
     /** Initialize Brackets menus */
     GitManagerMenu.prototype.createMenus = function () {
-        alert("Start debugger");
         // initially create a top level menu for convenience.  This can be buried as a submenu under another later.
         var topMenu = Menus.addMenu(I18n.git, Constants.GIT_MENU_ITEM, Menus.BEFORE, Menus.AppMenuBar.HELP_MENU);
         
