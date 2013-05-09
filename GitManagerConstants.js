@@ -6,6 +6,8 @@ define([], function () {
     return {
         GIT_MENU_ITEM: "git-menu",
         
-        RUN_COMMAND: "GitManager.runCommand"
+        RUN_COMMAND: "GitManager.runCommand",
+        
+        RUN_DIALOG_CLASS: "GitManager-dialog-run"
     };
 });

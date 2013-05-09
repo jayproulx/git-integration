@@ -1,0 +1,31 @@
+.GitManager-dialog-run .run-input
+{
+    width: 480px;
+    height: 23px;
+    font-family: 'SourceCodePro-Medium', "ＭＳ ゴシック", "MS Gothic", monospace;
+}
+
+.GitManager-dialog-run .controls
+{
+    margin-bottom: 10px;
+}
+
+.GitManager-dialog-run .btn.run-git-command
+{
+    width: 30px;
+    float: right;
+}
+
+.GitManager-dialog-run .run-output
+{
+    display: none;
+    width: 540px;
+    height: 100px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.GitManager-dialog-run.running .run-output
+{
+    display: block;
+}
