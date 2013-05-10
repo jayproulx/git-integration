@@ -1,6 +1,7 @@
+/*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
 /*global define, $, brackets, window */
 
-define(["GitManagerConstants"], function (Constants) {
+define(function (require, exports, module) {
     "use strict";
     
     var I18n = {
@@ -21,7 +22,5 @@ define(["GitManagerConstants"], function (Constants) {
         }
     };
     
-    I18n.l10n = I18n[brackets.app.language];
-
-    return I18n.l10n;
+    module.exports = I18n[brackets.app.language] || I18n.en;
 });

@@ -1,10 +1,16 @@
+/*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
 /*global define, $, brackets, window, console, Mustache */
 
-define(["Git", "GitManagerConstants", "GitManagerI18n", "GitManagerMenus", "text!RunCommandDialogTemplate.html"], function (Git, Constants, I18n, GitMenu, runCommandDialogTemplate) {
+define(function (require, exports, module) {
     "use strict";
     
     var instance,
-        Dialogs = brackets.getModule("widgets/Dialogs");
+        Dialogs = brackets.getModule("widgets/Dialogs"),
+        Git = require("Git"),
+        Constants = require("GitManagerConstants"),
+        I18n = require("GitManagerI18n"),
+        GitMenu = require("GitManagerMenus"),
+        RunDialogView = require("GitRunDialogView");
     
     /**
     * The goal of GitManager is to represent the git instance in the root folder that
@@ -15,25 +21,31 @@ define(["Git", "GitManagerConstants", "GitManagerI18n", "GitManagerMenus", "text
     * rather than providing this singleton class.
     */
     function GitManager() {
-        this.menu = new GitMenu(this);
-        this.git = new Git();
     }
     
     GitManager.getInstance = function () {
         return instance;
     };
     
-    GitManager.prototype.runCommand = function () {
-        var $tmpl = $(Mustache.render(runCommandDialogTemplate, I18n));
+    GitManager.prototype.initialize = function () {
+        this.git = new Git();
+        this.menu = new GitMenu(this);
+        this.runDialog = new RunDialogView(this);
         
-        $tmpl.find(".btn.run-git-command").on("click", function (e) {
-            $tmpl.addClass("running");
-        });
+        this.$runDialog = undefined;
+    };
+    
+    GitManager.prototype.showRunCommandDialog = function () {
+        this.runDialog.show();
+    };
+    
+    GitManager.prototype.runCommand = function (cmd) {
+        var $t = this.$runDialog;
         
-        Dialogs.showModalDialogUsingTemplate($tmpl);
+        return this.git.execute(cmd);
     };
     
     instance = new GitManager();
 
-    return instance;
+    module.exports = instance;
 });
