@@ -1,8 +1,13 @@
 .GitManager-dialog-run .run-input
 {
-    width: 480px;
+    width: 460px;
     height: 23px;
     font-family: 'SourceCodePro-Medium', "ＭＳ ゴシック", "MS Gothic", monospace;
+    background-position: 5px;
+    background-repeat: no-repeat;
+    background-image: url(caret.svg);
+    background-size: 12px 12px;
+    padding-left: 20px;
 }
 
 .GitManager-dialog-run .controls
