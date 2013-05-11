@@ -4,38 +4,49 @@
 define(function (require, exports, module) {
     "use strict";
     
-    var //spawn = require("child_process").spawn,
-        project = brackets.getModule("project/ProjectManager");
+    var NodeConnection = brackets.getModule("utils/NodeConnection"),
+        ExtensionUtils = brackets.getModule("utils/ExtensionUtils");
     
-    function Git() {
+    var nodeConnection = new NodeConnection(),
+        path = ExtensionUtils.getModulePath(module, "GitChildProcess"),
+        disconnectedGits = [],
+        connected = false;
+    
+    nodeConnection.connect(true).done(function () {
+        console.log("git-integration: Node connection complete");
+        console.log("git-integration: Trying to load " + path + ".js");
         
+        nodeConnection.loadDomains([path], true).done(function () {
+            console.log("git-integration: Load " + path + " complete");
+            
+            connected = true;
+            
+            while (disconnectedGits.length > 0) {
+                disconnectedGits.shift().connecting.resolve();
+            }
+        });
+    });
+
+    function Git(gitManager) {
+        this.gitManager = gitManager;
+        this.connecting = $.Deferred();
+
+        if (!connected) {
+            disconnectedGits.push(this);
+        } else {
+            this.connecting.resolve();
+        }
     }
-    
+        
     /**
     * @throws Error Executing a command that's not a git command throws an error
     */
     Git.prototype.execute = function (cmd) {
-        if (!/^git/.test(cmd)) {
-            throw new Error("No arbitrary executions with git-integration please!");
+        if (!this.connecting.isResolved()) {
+            throw new Error("Node connection for git not yet established.");
         }
         
-        console.log(cmd.split(' '));
-        
-        var acmd = cmd.split(' '),
-            proc = acmd.shift(),
-            e;
-        
-//        e = spawn(proc, acmd, {cwd: project.getProjectRoot().fullPath});
-//        
-//        e.stdout.on("data", function (data) {
-//            console.log(data);
-//        });
-//        
-//        e.stderr.on("data", function (data) {
-//            console.error(data);
-//        });
-//        
-        return e;
+        return nodeConnection.domains.gitManager.runCommand(cmd);
     };
     
     module.exports = Git;

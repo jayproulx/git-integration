@@ -1,16 +1,16 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
-/*global define, $, brackets, window, console, Mustache */
+/*global define, require, $, brackets, window, console, Mustache */
 
 define(function (require, exports, module) {
     "use strict";
     
-    var instance,
-        Dialogs = brackets.getModule("widgets/Dialogs"),
-        Git = require("Git"),
-        Constants = require("GitManagerConstants"),
-        I18n = require("GitManagerI18n"),
+//    alert("start debugger");
+    
+    var Git = require("Git"),
         GitMenu = require("GitManagerMenus"),
         RunDialogView = require("GitRunDialogView");
+    
+    var instance;
     
     /**
     * The goal of GitManager is to represent the git instance in the root folder that
@@ -19,20 +19,28 @@ define(function (require, exports, module) {
     * Perhaps later, this plugin can be improved to represent other git instances that
     * are found in the directory structure, and we can allow the user to choose an instance
     * rather than providing this singleton class.
+    *
+    * Some refactoring will be required, such as displaying a menu item for each repo that
+    * is created, etc.
     */
     function GitManager() {
+        this.git = undefined;
+        this.menu = undefined;
+        this.runDialog = undefined;
     }
     
+    /**
+    * For use sometime in the future when we want to support multiple git repos inside
+    * the project tree.
+    */
     GitManager.getInstance = function () {
         return instance;
     };
     
     GitManager.prototype.initialize = function () {
-        this.git = new Git();
+        this.git = new Git(this);
         this.menu = new GitMenu(this);
         this.runDialog = new RunDialogView(this);
-        
-        this.$runDialog = undefined;
     };
     
     GitManager.prototype.showRunCommandDialog = function () {
@@ -40,8 +48,6 @@ define(function (require, exports, module) {
     };
     
     GitManager.prototype.runCommand = function (cmd) {
-        var $t = this.$runDialog;
-        
         return this.git.execute(cmd);
     };
     

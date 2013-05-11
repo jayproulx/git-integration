@@ -15,6 +15,7 @@ define(function (require, exports, module) {
         
         gitManager.initialize();
         
+        // for debugging convenience, this isn't intended to stay
         window.gitManager = gitManager;
     });
     
