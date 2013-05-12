@@ -4,7 +4,6 @@
 define(function (require, exports, module) {
     "use strict";
     
-//    alert("start debugger");
     
     var Git = require("Git"),
         GitMenu = require("GitManagerMenus"),

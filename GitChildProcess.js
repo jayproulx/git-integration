@@ -1,17 +1,16 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
-/*global exports, require, brackets */
+/*global exports, require */
 
 (function () {
     "use strict";
     
-    var ProjectManager = brackets.getModule("project/ProjectManager"),
-        childProcess = require("child_process"),
+    var childProcess = require("child_process"),
         spawn = childProcess.spawn;
     
     var DOMAIN = "gitManager",
         RUN_COMMAND = "runCommand";
     
-    function runCommand(command) {
+    function runCommand(command, directoryPath) {
         if (!/^git /.test(command)) {
             throw new Error("No arbitrary executions with git-integration please!");
         }
@@ -22,8 +21,7 @@
             git = acmd.shift(), // this should be git, or we have a problem
             proc;
         
-        // todo: refactor getProjectRoot into GitManager and pass it to Git
-        proc = spawn(git, acmd, {cwd: ProjectManager.getProjectRoot().fullPath});
+        proc = spawn(git, acmd, {cwd: directoryPath});
         
         proc.stdout.on("data", function (data) {
             console.log(data);

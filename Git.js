@@ -5,25 +5,40 @@ define(function (require, exports, module) {
     "use strict";
     
     var NodeConnection = brackets.getModule("utils/NodeConnection"),
+        ProjectManager = brackets.getModule("project/ProjectManager"),
         ExtensionUtils = brackets.getModule("utils/ExtensionUtils");
     
     var nodeConnection = new NodeConnection(),
         path = ExtensionUtils.getModulePath(module, "GitChildProcess"),
         disconnectedGits = [],
-        connected = false;
+        connected = false,
+        LOGGING_ENABLED = true;
+    
+    function log() {
+        if (LOGGING_ENABLED) {
+            console.log.apply(arguments, console);
+        }
+    }
     
     nodeConnection.connect(true).done(function () {
-        console.log("git-integration: Node connection complete");
-        console.log("git-integration: Trying to load " + path + ".js");
+        log("git-integration: Node connection complete");
+        log("git-integration: Trying to load " + path + ".js");
         
-        nodeConnection.loadDomains([path], true).done(function () {
-            console.log("git-integration: Load " + path + " complete");
+        var p = nodeConnection.loadDomains([path], true);
+        
+        p.done(function () {
+            log("git-integration: Load " + path + " complete");
             
             connected = true;
             
             while (disconnectedGits.length > 0) {
                 disconnectedGits.shift().connecting.resolve();
             }
+        });
+        
+        p.fail(function () {
+            log("git-integration: Error connecting to Node:");
+            log(arguments);
         });
     });
 
@@ -46,7 +61,7 @@ define(function (require, exports, module) {
             throw new Error("Node connection for git not yet established.");
         }
         
-        return nodeConnection.domains.gitManager.runCommand(cmd);
+        return nodeConnection.domains.gitManager.runCommand(cmd, ProjectManager.getProjectRoot().fullPath);
     };
     
     module.exports = Git;
