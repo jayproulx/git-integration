@@ -37,19 +37,22 @@ define(function (require, exports, module) {
     };
     
     GitRunDialogView.prototype.runCommand = function () {
-        var proc, $t = this.$runDialog, self = this;
+        var promise, $t = this.$runDialog, self = this, command = $t.find("." + GitRunDialogView.RUN_DIALOG_INPUT_CLASS).val();
         
         $t.addClass(GitRunDialogView.RUN_DIALOG_STATE_RUNNING);
+        self.clearRunDialog();
         
-        proc = this.manager.runCommand($t.find(GitRunDialogView.RUN_DIALOG_INPUT_CLASS).val());
-
-        proc.stdout.on("data", function (data) {
-            self.writeOutput(data);
-        });
-        
-        proc.stderr.on("data", function (data) {
-            self.writeOutput(data);
-        });
+        promise = this.manager.runCommand(command).then(
+            function (data) {
+                self.writeOutput(data);
+            },
+            function (error) {
+                self.writeOutput("Error executing git command:\n" + error);
+            },
+            function (data) {
+                self.writeOutput(data);
+            }
+        );
     };
     
     GitRunDialogView.prototype.writeOutput = function (data) {

@@ -10,7 +10,7 @@
     var DOMAIN = "gitManager",
         RUN_COMMAND = "runCommand";
     
-    function runCommand(command, directoryPath) {
+    function runCommand(command, directoryPath, cb) {
         if (!/^git /.test(command)) {
             throw new Error("No arbitrary executions with git-integration please!");
         }
@@ -19,19 +19,24 @@
         
         var acmd = command.split(' '),
             git = acmd.shift(), // this should be git, or we have a problem
-            proc;
+            proc,
+            error = "",
+            output = "";
         
         proc = spawn(git, acmd, {cwd: directoryPath});
         
         proc.stdout.on("data", function (data) {
-            console.log(data);
+            output += data;
         });
         
-        proc.stderr.on("data", function (data) {
-            console.error(data);
+        proc.stderr.on("data", function (err) {
+            error += err;
         });
         
-        return proc;
+        proc.on("close", function (code) {
+            output += "\n" + command + " completed with exit code " + code;
+            cb(error, output);
+        });
     }
     
     exports.init = function (DomainManager) {
@@ -43,7 +48,7 @@
             DOMAIN,
             RUN_COMMAND,
             runCommand,
-            false,
+            true,
             "Runs an arbitrary Git command.",
             [
                 {
@@ -54,9 +59,9 @@
             ],
             [
                 {
-                    name: "process",
+                    name: "confirmation",
                     type: "object",
-                    description: "Node process"
+                    description: "Returns command executed and the folder passed in"
                 }
             ]
         );

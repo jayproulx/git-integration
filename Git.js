@@ -8,7 +8,7 @@ define(function (require, exports, module) {
         ProjectManager = brackets.getModule("project/ProjectManager"),
         ExtensionUtils = brackets.getModule("utils/ExtensionUtils");
     
-    var nodeConnection = new NodeConnection(),
+    var nodeConnection = new NodeConnection(), // mind as well share a connection for all Git repos
         path = ExtensionUtils.getModulePath(module, "GitChildProcess"),
         disconnectedGits = [],
         connected = false,
@@ -16,19 +16,14 @@ define(function (require, exports, module) {
     
     function log() {
         if (LOGGING_ENABLED) {
-            console.log.apply(arguments, console);
+            console.log(arguments);
         }
     }
     
     nodeConnection.connect(true).done(function () {
-        log("git-integration: Node connection complete");
-        log("git-integration: Trying to load " + path + ".js");
-        
         var p = nodeConnection.loadDomains([path], true);
         
         p.done(function () {
-            log("git-integration: Load " + path + " complete");
-            
             connected = true;
             
             while (disconnectedGits.length > 0) {
@@ -55,13 +50,17 @@ define(function (require, exports, module) {
         
     /**
     * @throws Error Executing a command that's not a git command throws an error
+    * @returns {promise} Promise for the Node connection
     */
     Git.prototype.execute = function (cmd) {
         if (!this.connecting.isResolved()) {
             throw new Error("Node connection for git not yet established.");
         }
         
-        return nodeConnection.domains.gitManager.runCommand(cmd, ProjectManager.getProjectRoot().fullPath);
+        var path = ProjectManager.getProjectRoot().fullPath;
+        var result = nodeConnection.domains.gitManager.runCommand(cmd, path);
+        
+        return result;
     };
     
     module.exports = Git;
