@@ -21,15 +21,29 @@ define(function (require, exports, module) {
     GitRunDialogView.RUN_DIALOG_STATE_RUNNING = "running";
 
     GitRunDialogView.prototype.show = function () {
-        var $t, self = this;
+        var $t, self = this, $input, $button;
         
         this.$runDialog = $t = $(Mustache.render(runCommandDialogTemplate, I18n));
         
-        $t.find("." + GitRunDialogView.RUN_DIALOG_RUN_BUTTON_CLASS).on("click", function (e) {
+        $input = $t.find("." + GitRunDialogView.RUN_DIALOG_INPUT_CLASS);
+        $button = $t.find("." + GitRunDialogView.RUN_DIALOG_RUN_BUTTON_CLASS);
+        
+        $button.on("click", function (e) {
             self.runCommand();
+        });
+        
+        $input.on("keyup", function (e) {
+            if (e.keyCode === 13) {
+                e.stopImmediatePropagation();
+                e.preventDefault();
+                
+                self.runCommand();
+            }
         });
 
         Dialogs.showModalDialogUsingTemplate($t);
+
+        $input.focus();
     };
     
     GitRunDialogView.prototype.close = function () {
