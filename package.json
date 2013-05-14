@@ -1,9 +1,9 @@
 {
     "name": "git-integration",
-    "title": "Integrates with command-line Git.",
-    "description": "",
+    "title": "Git Integration",
+    "description": "Integrates with command-line Git.",
     "version": "0.1.0",
-    "author": "Jay Proulx <jay@proulx.info>",
+    "author": "Jay Proulx <jason.proulx@pollensoft.com>",
     "license": "MIT",
     "engines": {
         "brackets": ">=0.24.0"
