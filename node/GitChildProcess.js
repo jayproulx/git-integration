@@ -17,7 +17,7 @@
         
         console.log(command.split(' '));
         
-        var acmd = command.split(' '),
+        var acmd = command.match(/[a-zA-Z\\\/\.\-]+|['"][^'"]+['"]/g),
             git = acmd.shift(), // this should be git, or we have a problem
             proc,
             error = "",
