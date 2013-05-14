@@ -45,14 +45,40 @@
 
 .GitManager-dialog-run .run-output
 {
-    display: none;
-    width: 540px;
-    height: 100px;
+    display: block;
+    width: 538px;
+    height: 0px;
     overflow: hidden;
     overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    
+    -webkit-transition: height 250ms ease-in;
+            transition: height 250ms ease-in;
 }
 
 .GitManager-dialog-run.running .run-output
 {
     display: block;
+    height: 250px;
+    padding: 10px;
+    border: 1px solid #CCCCCC;
+}
+
+.GitManager-dialog-run.running .run-output-container
+{
+    position: relative;
+}
+
+.GitManager-dialog-run.running .run-output-scroll-indicator
+{
+    background-image: url(scroll-indicator.png);
+    background-repeat: repeat-x;
+    height: 10px;
+    position: absolute;
+    bottom: 1px;
+    left: 1px;
+    right: 1px;
+    border-radius: 2px;
 }

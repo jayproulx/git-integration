@@ -9,7 +9,7 @@ define(function (require, exports, module) {
         ExtensionUtils = brackets.getModule("utils/ExtensionUtils");
     
     var nodeConnection = new NodeConnection(), // mind as well share a connection for all Git repos
-        path = ExtensionUtils.getModulePath(module, "GitChildProcess"),
+        path = ExtensionUtils.getModulePath(module, "node/GitChildProcess"),
         disconnectedGits = [],
         connected = false,
         LOGGING_ENABLED = true;
