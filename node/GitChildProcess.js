@@ -29,13 +29,15 @@
             output += data;
         });
         
+        // append errors to output instead, so that we get all of the content back in
+        // the output field in the UI.  We don't really need to distinguish.
         proc.stderr.on("data", function (err) {
-            error += err;
+            output += err;
         });
         
         proc.on("close", function (code) {
             output += "\n" + command + " completed with exit code " + code;
-            cb(error, output);
+            cb(undefined, output);
         });
     }
     
