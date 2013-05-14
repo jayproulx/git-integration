@@ -61,7 +61,8 @@ define(function (require, exports, module) {
                 self.writeOutput(data);
             },
             function (error) {
-                self.writeOutput("Error executing git command:\n" + error);
+                // this isn't always an error.  Some of the longer running commands end up here with valid input.
+                self.writeOutput(error);
             },
             function (data) {
                 self.writeOutput(data);
