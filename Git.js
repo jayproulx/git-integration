@@ -53,7 +53,7 @@ define(function (require, exports, module) {
     * @returns {promise} Promise for the Node connection
     */
     Git.prototype.execute = function (cmd) {
-        if (!this.connecting.isResolved()) {
+        if (this.connecting.state() !== "resolved") {
             throw new Error("Node connection for git not yet established.");
         }
         
