@@ -6,6 +6,6 @@
     "author": "Jay Proulx <jason.proulx@pollensoft.com>",
     "license": "MIT",
     "engines": {
-        "brackets": ">=0.24.0"
+        "brackets": ">=0.31.0"
     }
 }
