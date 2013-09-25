@@ -1,7 +1,7 @@
 git-integration
 ===============
 
-Tested against Brackets Sprint 24
+Tested against Brackets Sprint 31
 
 Current state:
 --------------
@@ -9,9 +9,11 @@ Current state:
 * git-integration assumes you have a .git repo in your project root folder
 * Git repo isn't in your root folder?  No problem!  Just open the folder with your Git repo in it :) 
 * open with command line `Ctrl-Alt-Shift-G`
+* Fixed graphical issues introduced with Brackets Sprint 27
+* Fixed a few minor bugs
 
-Next Milestone: Milestone 2
----------------------------
+Next Milestone
+--------------
 
 * File context menu: Git > Add, Move, Delete
 * Git Run... key binding
