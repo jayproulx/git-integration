@@ -8,6 +8,7 @@ Current state:
 
 * git-integration assumes you have a .git repo in your project root folder
 * Git repo isn't in your root folder?  No problem!  Just open the folder with your Git repo in it :) 
+* open with command line `Ctrl-Alt-Shift-G`
 
 Next Milestone: Milestone 2
 ---------------------------

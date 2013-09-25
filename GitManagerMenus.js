@@ -24,7 +24,7 @@ define(function (require, exports, module) {
             self.gitManager.showRunCommandDialog();
         });
         
-        topMenu.addMenuItem(Constants.RUN_COMMAND);
+        topMenu.addMenuItem(Constants.RUN_COMMAND, "Ctrl-Alt-Shift-G");
     };
     
     module.exports = GitManagerMenu;
