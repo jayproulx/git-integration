@@ -11,6 +11,9 @@
             align-content: stretch;
     
     flex-direction: horizontal;
+
+    -webkit-align-items: flex-start;
+	    align-items: flex-start;
     
     margin-bottom: 10px;
 }
@@ -41,12 +44,14 @@
     
     -webkit-order: 2;
             order: 2;
+
+    height: 23px;
+    line-height: 23px;
 }
 
 .GitManager-dialog-run .run-output
 {
     display: block;
-    width: 538px;
     height: 0px;
     overflow: hidden;
     overflow-y: auto;
